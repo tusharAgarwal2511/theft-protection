@@ -1,7 +1,10 @@
 package com.example.theftprotection.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.theftprotection.R
@@ -26,10 +29,34 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
+//        val sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+//        val name = sharedPrefs.getString("name", null)
+//
+//        if (name != null) {
+//            Log.e("MyTag", name.toString())
+//        }
+
         homeActivityBinding = ActivityHomeBinding.inflate(layoutInflater)
+
+
+
         setContentView(homeActivityBinding.root)
 
         supportActionBar?.elevation = 0F;
+
+
+        // Retrieve the SharedPreferences object using the same name as before
+        val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+
+        // Use the getBoolean method to retrieve the boolean value
+        val isDarkValue = sharedPreferences.getBoolean("isDark", false)
+
+        if(isDarkValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+        else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
 
 
         mainActivityViewModel = ViewModelProvider(this, MainActivityViewModelFactory(selectedItemId))[MainActivityViewModel::class.java]
